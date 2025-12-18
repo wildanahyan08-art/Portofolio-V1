@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Linkedin, Menu, X, Instagram, Send, ArrowUp } from 'lucide-react';
+import { 
+  Github, 
+  Linkedin, 
+  Menu, 
+  X, 
+  Instagram, 
+  Send, 
+  ArrowUp, 
+  ExternalLink, 
+  ArrowLeft 
+} from 'lucide-react';
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -29,6 +39,10 @@ const App = () => {
     { name: "Figma", icon: "https://images.icon-icons.com/2429/PNG/512/figma_logo_icon_147289.png" },
   ];
 
+  const goBack = () => {
+    window.history.back();
+  };
+
   return (
     <div className="min-h-screen w-full bg-[#020617] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/30 via-[#020617] to-[#000000] text-white font-['Inter'] selection:bg-indigo-500/30 overflow-x-hidden flex flex-col items-center">
 
@@ -46,13 +60,12 @@ const App = () => {
             ))}
           </div>
 
-          {/* MOBILE TOGGLE - DENGAN FIX WARNA & ANIMASI TAP */}
+          {/* Mobile Toggle */}
           <motion.button 
-            whileTap={{ scale: 0.9 }} // Animasi saat ditekan di HP
-            className="md:hidden relative p-3 rounded-xl border border-white/10 bg-[#0f172a] flex items-center justify-center overflow-hidden" 
+            whileTap={{ scale: 0.9 }} 
+            className="md:hidden relative p-3 rounded-xl border border-white/10 bg-[#0f172a] flex items-center justify-center" 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {/* Memastikan warna ikon dipaksa putih dengan inline style agar tidak kalah oleh CSS browser */}
             {isMenuOpen ? (
               <X size={24} style={{ color: '#ffffff' }} strokeWidth={2.5} />
             ) : (
@@ -83,6 +96,7 @@ const App = () => {
       </nav>
 
       <main className="w-full max-w-7xl flex flex-col items-center px-6">
+        
         {/* SECTION 1: ABOUT ME */}
         <section id="about" className="min-h-screen flex flex-col items-center justify-center pt-24 text-center relative w-full">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-indigo-500/20 blur-[120px] rounded-full -z-10" />
@@ -92,7 +106,7 @@ const App = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
               </span>
-              <span className="text-[10px] font-bold tracking-[0.2em] text-indigo-300 uppercase italic">not yet Available for Work</span>
+              <span className="text-[10px] font-bold tracking-[0.2em] text-indigo-300 uppercase italic">Available for Work</span>
             </div>
             <h2 className="text-indigo-400 font-semibold tracking-widest text-xs mb-4 uppercase">Junior Fullstack Developer</h2>
             <h1 className="text-4xl md:text-7xl font-extrabold mb-8 leading-tight tracking-tight text-white">
@@ -124,7 +138,7 @@ const App = () => {
           </motion.div>
         </section>
 
-        {/* SKILLS SECTION */}
+        {/* SECTION 2: SKILLS */}
         <section id="skills" className="py-24 w-full flex flex-col items-center border-t border-white/5">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase text-white italic">Keahlian saya</h2>
@@ -140,31 +154,62 @@ const App = () => {
           </div>
         </section>
 
-        {/* PORTFOLIO SECTION */}
-        <section id="portfolio" className="py-24 w-full border-t border-white/5">
-          <div className="flex justify-between items-end mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase italic">Project</h2>
-            <div className="h-0.5 bg-indigo-600 w-16 mb-4"></div>
+        {/* SECTION 3: PORTFOLIO */}
+        <section id="portfolio" className="py-24 w-full border-t border-white/5 flex flex-col items-center">
+          
+          <div className="w-full max-w-4xl flex flex-col gap-6 mb-12">
+            {/* Tombol Kembali */}
+            <button 
+              onClick={goBack}
+              className="group flex items-center gap-2 text-gray-400 hover:text-indigo-400 transition-colors text-xs font-bold uppercase tracking-widest w-fit"
+            >
+              <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
+              Kembali
+            </button>
+            
+            <div className="flex justify-between items-end">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase italic">Project</h2>
+              <div className="h-0.5 bg-indigo-600 w-16 mb-4"></div>
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
-            {[1, 2].map((item) => (
-              <div key={item} className="bg-white/5 rounded-3xl overflow-hidden border border-white/5 group hover:border-indigo-500/30 transition-all shadow-xl">
+          
+          <div className="w-full max-w-2xl">
+              <div className="bg-white/5 rounded-3xl overflow-hidden border border-white/5 group hover:border-indigo-500/30 transition-all shadow-xl">
                 <div className="aspect-video overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="work" />
+                  {/* Gambar berwarna (Tanpa Grayscale) */}
+                  <img 
+                    src="/image-porto-v1.png" 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                    alt="work" 
+                  />
                 </div>
                 <div className="p-8">
-                  <h4 className="text-xl font-bold mb-2">Coming Soon</h4>
-                  <p className="text-gray-400 text-sm mb-6 leading-relaxed">Proyek sedang dalam tahap pengembangan.</p>
-                  <div className="flex gap-3 text-[10px] font-bold text-indigo-400 uppercase">
-                    <span className="px-3 py-1 bg-indigo-500/10 rounded-full border border-indigo-500/20">Coming Soon</span>
+                  <h4 className="text-xl font-bold mb-2">My Portfolio V1</h4>
+                  <div className="flex gap-3 text-[10px] font-bold text-indigo-400 uppercase mb-6">
+                    <span className="px-3 py-1 bg-indigo-500/10 rounded-full border border-indigo-500/20">React</span>
+                    <span className="px-3 py-1 bg-indigo-500/10 rounded-full border border-indigo-500/20">Tailwind</span>
                   </div>
+                  
+                  <p className="text-gray-400 text-sm mb-8 leading-relaxed">
+                    Website portofolio pribadi yang dibangun dengan teknologi modern untuk menampilkan keahlian dan proyek saya secara interaktif.
+                  </p>
+
+                  <motion.a 
+                    whileTap={{ scale: 0.95 }}
+                    href="https://portofolio-wildanahyan.vercel.app" // Ubah sesuai URL Anda
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 bg-indigo-600 hover:bg-white hover:text-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-lg shadow-indigo-600/20 group/btn"
+                  >
+                    Lihat Web 
+                    <ExternalLink size={16} className="transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                  </motion.a>
                 </div>
               </div>
-            ))}
           </div>
         </section>
 
-        {/* CONTACT SECTION */}
+        {/* SECTION 4: CONTACT */}
         <section id="contact" className="py-24 w-full border-t border-white/5 flex flex-col items-center">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase italic">HUBUNGI SAYA</h2>
