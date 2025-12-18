@@ -46,22 +46,31 @@ const App = () => {
             ))}
           </div>
 
-          {/* Mobile Toggle - Explicit White Color */}
+          {/* Perbaikan Burger Menu Mobile */}
           <button 
-            className="md:hidden p-2 bg-white/5 rounded-xl border border-white/10 flex items-center justify-center text-white" 
+            className="md:hidden p-2 bg-slate-800/50 rounded-xl border border-white/10 flex items-center justify-center transition-all active:scale-95" 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle Menu"
           >
-            {isMenuOpen ? <X size={24} className="text-white" /> : <Menu size={24} className="text-white" />}
+            {isMenuOpen ? (
+              <X size={24} className="text-white" strokeWidth={2.5} />
+            ) : (
+              <Menu size={24} className="text-white" strokeWidth={2.5} />
+            )}
           </button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Overlay */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
-              className="absolute top-full left-0 w-full bg-[#020617] border-b border-white/10 p-8 flex flex-col items-center gap-6 md:hidden">
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-full left-0 w-full bg-[#020617] border-b border-white/10 p-8 flex flex-col items-center gap-6 md:hidden shadow-2xl"
+            >
               {navLinks.map((link) => (
-                <a key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-lg font-semibold">{link.name}</a>
+                <a key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-lg font-semibold hover:text-indigo-400 transition-colors">{link.name}</a>
               ))}
             </motion.div>
           )}
@@ -73,6 +82,7 @@ const App = () => {
         {/* SECTION 1: ABOUT ME */}
         <section id="about" className="min-h-screen flex flex-col items-center justify-center pt-24 text-center relative w-full">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-indigo-500/20 blur-[120px] rounded-full -z-10" />
+          
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="flex flex-col items-center">
             <div className="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-4 py-1.5 rounded-full mb-6">
               <span className="relative flex h-2 w-2">
@@ -81,16 +91,19 @@ const App = () => {
               </span>
               <span className="text-[10px] font-bold tracking-[0.2em] text-indigo-300 uppercase">not yet Available for Work</span>
             </div>
-            <h2 className="text-indigo-400 font-semibold tracking-widest text-xs mb-4 uppercase">Junior Fullstack Developer</h2>
+
+            <h2 className="text-indigo-400 font-semibold tracking-widest text-xs mb-4 uppercase italic">Junior Fullstack Developer</h2>
             <h1 className="text-4xl md:text-7xl font-extrabold mb-8 leading-tight tracking-tight text-white">
               Halo, Saya <span className="text-indigo-500">Wildan Ahyan Daffa</span>
             </h1>
+
             <div className="relative group mb-10">
               <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
               <div className="relative w-40 h-40 md:w-44 md:h-44 rounded-full p-1 border-2 border-indigo-500/50 overflow-hidden bg-[#020617] shadow-2xl">
                 <img src="/logoProfil.png" alt="Profile Foto" className="w-full h-full object-cover rounded-full transition-transform duration-500 group-hover:scale-110" />
               </div>
             </div>
+
             <div className="flex gap-8 md:gap-16 mb-12 border-y border-white/5 py-6 w-full max-w-lg justify-center">
               <div className="flex flex-col text-center">
                 <span className="text-2xl md:text-3xl font-black text-white tracking-tighter">1+</span>
@@ -105,6 +118,7 @@ const App = () => {
                 <span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">Tech Stack</span>
               </div>
             </div>
+
             <a href="#portfolio" className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold text-sm hover:bg-white hover:text-[#020617] transition-all shadow-lg shadow-indigo-600/30 uppercase tracking-[0.2em]">
               LIHAT PROYEK SAYA
             </a>
@@ -151,28 +165,28 @@ const App = () => {
           </div>
         </section>
 
-        {/* CONTACT SECTION (Centered) */}
+        {/* CONTACT SECTION (Centered Fixed) */}
         <section id="contact" className="py-24 w-full border-t border-white/5 flex flex-col items-center">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase italic">HUBUNGI SAYA</h2>
             <p className="text-gray-400 max-w-md mx-auto">Punya pertanyaan atau ingin berkolaborasi? Jangan ragu untuk mengirim pesan.</p>
           </div>
 
-          <div className="w-full max-w-2xl px-4">
-            <div className="bg-white/5 border border-white/10 p-8 md:p-12 rounded-3xl relative overflow-hidden group shadow-2xl">
+          <div className="w-full max-w-2xl px-4 flex justify-center">
+            <div className="w-full bg-white/5 border border-white/10 p-8 md:p-12 rounded-3xl relative overflow-hidden group shadow-2xl">
               <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-600/10 blur-[80px] -z-10 transition-all group-hover:bg-indigo-600/20"></div>
               
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <input type="text" placeholder="Nama Anda" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600" />
-                  <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600" />
+                  <input type="text" placeholder="Nama Anda" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600 text-white" />
+                  <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600 text-white" />
                 </div>
-                <input type="text" placeholder="Subjek" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600" />
-                <textarea placeholder="Pesan Anda" rows="5" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full resize-none placeholder:text-gray-600"></textarea>
+                <input type="text" placeholder="Subjek" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600 text-white" />
+                <textarea placeholder="Pesan Anda" rows="5" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full resize-none placeholder:text-gray-600 text-white"></textarea>
 
-                <button type="submit" className="group relative w-full bg-indigo-600 hover:bg-white text-white hover:text-indigo-600 font-black py-5 rounded-2xl transition-all duration-500 overflow-hidden shadow-xl">
+                <button type="submit" className="group relative w-full bg-indigo-600 hover:bg-white text-white hover:text-indigo-600 font-black py-5 rounded-2xl transition-all duration-500 overflow-hidden shadow-xl shadow-indigo-600/20">
                   <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-                  <span className="flex items-center justify-center gap-3 uppercase text-xs md:text-sm tracking-[0.4em] font-extrabold">
+                  <span className="flex items-center justify-center gap-3 uppercase text-xs md:text-sm tracking-[0.4em] font-extrabold transition-all duration-300">
                     Kirim Pesan 
                     <Send size={18} className="transition-transform duration-500 group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:rotate-12" />
                   </span>
@@ -190,9 +204,9 @@ const App = () => {
             <div className="text-2xl font-bold tracking-tighter text-white">Dann Porto<span className="text-indigo-500">.</span></div>
             <p className="text-gray-500 text-sm max-w-[250px] leading-relaxed italic">Membangun solusi digital melalui kode dan desain bermakna.</p>
             <div className="flex gap-4">
-              <a href="https://github.com/wildanahyan08-art" className="p-2.5 bg-white/5 rounded-lg border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-white"><Github size={18} /></a>
-              <a href="https://www.linkedin.com/in/Wildan-Prasetyo" className="p-2.5 bg-white/5 rounded-lg border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-white"><Linkedin size={18} /></a>
-              <a href="https://www.instagram.com/_wildanahyndrp/" className="p-2.5 bg-white/5 rounded-lg border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-white"><Instagram size={18} /></a>
+              <a href="https://github.com/wildanahyan08-art" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-white"><Github size={18} /></a>
+              <a href="https://www.linkedin.com/in/Wildan-Prasetyo" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-white"><Linkedin size={18} /></a>
+              <a href="https://www.instagram.com/_wildanahyndrp/" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-white"><Instagram size={18} /></a>
             </div>
           </div>
 
@@ -220,7 +234,7 @@ const App = () => {
           </div>
         </div>
 
-        <div className="max-w-7xl w-full border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="max-w-7xl w-full border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-center">
           <p className="text-gray-600 text-[10px] font-bold tracking-[0.2em] uppercase">© 2025 WILDAN AHYAN. SEMUA HAK DILINDUNGI.</p>
           <div className="flex gap-8 text-[10px] font-bold tracking-[0.2em] text-gray-600">
             <span>DESIGNED BY DANN</span>
