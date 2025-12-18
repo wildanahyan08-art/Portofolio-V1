@@ -47,8 +47,8 @@ const App = () => {
     <div className="min-h-screen w-full bg-[#020617] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/30 via-[#020617] to-[#000000] text-white font-['Inter'] selection:bg-indigo-500/30 overflow-x-hidden flex flex-col items-center">
 
       {/* NAVBAR */}
-      <nav className={`fixed w-full z-[100] transition-all duration-300 px-6 py-4 flex justify-center ${scrolled ? 'bg-[#020617]/90 backdrop-blur-md border-b border-white/5 shadow-xl' : 'bg-transparent'}`}>
-        <div className="max-w-7xl w-full flex justify-between items-center">
+      <nav className={`fixed w-full z-[1000] transition-all duration-300 px-6 py-4 flex justify-center ${scrolled ? 'bg-[#020617]/90 backdrop-blur-md border-b border-white/5 shadow-xl' : 'bg-transparent'}`}>
+        <div className="max-w-7xl w-full flex justify-between items-center relative z-[1001]">
           <div className="text-[25px] font-bold tracking-tighter text-white">
             Dann Porto<span className="text-indigo-500">.</span>
           </div>
@@ -60,32 +60,32 @@ const App = () => {
             ))}
           </div>
 
-          {/* Mobile Toggle */}
-          <motion.button 
-            whileTap={{ scale: 0.9 }} 
-            className="md:hidden relative p-3 rounded-xl border border-white/10 bg-[#0f172a] flex items-center justify-center" 
+          {/* Mobile Toggle - Z-Index ditingkatkan agar selalu di depan */}
+          <button 
+            className="md:hidden relative z-[1002] p-3 rounded-xl border border-white/10 bg-[#0f172a] hover:bg-indigo-600 transition-colors flex items-center justify-center cursor-pointer" 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
           >
             {isMenuOpen ? (
-              <X size={24} style={{ color: '#ffffff' }} strokeWidth={2.5} />
+              <X size={24} color="#ffffff" strokeWidth={2.5} />
             ) : (
-              <Menu size={24} style={{ color: '#ffffff' }} strokeWidth={2.5} />
+              <Menu size={24} color="#ffffff" strokeWidth={2.5} />
             )}
-          </motion.button>
+          </button>
         </div>
 
         {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div 
-              initial={{ opacity: 0, height: 0 }} 
-              animate={{ opacity: 1, height: 'auto' }} 
-              exit={{ opacity: 0, height: 0 }}
-              className="absolute top-full left-0 w-full bg-[#020617] border-b border-white/10 overflow-hidden md:hidden"
+              initial={{ opacity: 0, y: -20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-0 left-0 w-full bg-[#020617] border-b border-white/10 overflow-hidden md:hidden z-[999] pt-24"
             >
               <div className="flex flex-col items-center gap-6 p-8">
                 {navLinks.map((link) => (
-                  <a key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-lg font-semibold text-gray-300 active:text-indigo-500 transition-colors">
+                  <a key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-lg font-semibold text-gray-300 hover:text-indigo-500 transition-colors">
                     {link.name}
                   </a>
                 ))}
@@ -106,9 +106,9 @@ const App = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
               </span>
-              <span className="text-[10px] font-bold tracking-[0.2em] text-indigo-300 uppercase italic">Available for Work</span>
+              <span className="text-[10px] font-bold tracking-[0.2em] text-indigo-300 uppercase italic">not yet Available for Work</span>
             </div>
-            <h2 className="text-indigo-400 font-semibold tracking-widest text-xs mb-4 uppercase">Junior Fullstack Developer</h2>
+            
             <h1 className="text-4xl md:text-7xl font-extrabold mb-8 leading-tight tracking-tight text-white">
               Halo, Saya <span className="text-indigo-500">Wildan Ahyan Daffa</span>
             </h1>
@@ -117,7 +117,9 @@ const App = () => {
               <div className="relative w-40 h-40 md:w-44 md:h-44 rounded-full p-1 border-2 border-indigo-500/50 overflow-hidden bg-[#020617] shadow-2xl">
                 <img src="/logoProfil.png" alt="Profile Foto" className="w-full h-full object-cover rounded-full transition-transform duration-500 group-hover:scale-110" />
               </div>
+        
             </div>
+            <h2 className="text-indigo-400 font-semibold tracking-widest text-xs mb-4 uppercase">Junior Fullstack Developer</h2>
             <div className="flex gap-8 md:gap-16 mb-12 border-y border-white/5 py-6 w-full max-w-lg justify-center">
               <div className="flex flex-col text-center">
                 <span className="text-2xl md:text-3xl font-black text-white tracking-tighter">1+</span>
@@ -157,26 +159,26 @@ const App = () => {
         {/* SECTION 3: PORTFOLIO */}
         <section id="portfolio" className="py-24 w-full border-t border-white/5 flex flex-col items-center">
           
-          <div className="w-full max-w-4xl flex flex-col gap-6 mb-12">
-            {/* Tombol Kembali */}
+          <div className="w-full max-w-4xl flex flex-col items-center mb-12">
+            {/* Tombol Kembali - Dipindah ke atas agar rapi */}
             <button 
               onClick={goBack}
-              className="group flex items-center gap-2 text-gray-400 hover:text-indigo-400 transition-colors text-xs font-bold uppercase tracking-widest w-fit"
+              className="group flex items-center gap-2 text-gray-400 hover:text-indigo-400 transition-colors text-xs font-bold uppercase tracking-widest mb-8 self-start md:self-center"
             >
               <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
               Kembali
             </button>
             
-            <div className="flex justify-between items-end">
-              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase italic">Project</h2>
-              <div className="h-0.5 bg-indigo-600 w-16 mb-4"></div>
+            {/* Judul Project Sekarang Center */}
+            <div className="flex flex-col items-center text-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase italic mb-4">Project</h2>
+              <div className="h-1 bg-indigo-600 w-24 rounded-full"></div>
             </div>
           </div>
           
           <div className="w-full max-w-2xl">
               <div className="bg-white/5 rounded-3xl overflow-hidden border border-white/5 group hover:border-indigo-500/30 transition-all shadow-xl">
                 <div className="aspect-video overflow-hidden">
-                  {/* Gambar berwarna (Tanpa Grayscale) */}
                   <img 
                     src="/image-porto-v1.png" 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
@@ -196,7 +198,7 @@ const App = () => {
 
                   <motion.a 
                     whileTap={{ scale: 0.95 }}
-                    href="https://portofolio-wildanahyan.vercel.app" // Ubah sesuai URL Anda
+                    href="https://portofolio-wildanahyan.vercel.app"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-3 bg-indigo-600 hover:bg-white hover:text-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-lg shadow-indigo-600/20 group/btn"
