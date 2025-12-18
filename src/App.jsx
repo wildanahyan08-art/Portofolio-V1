@@ -9,12 +9,17 @@ import {
   Send, 
   ArrowUp, 
   ExternalLink, 
-  ArrowLeft 
+  ArrowLeft,
+  Award,
+  Calendar,
+  Image as ImageIcon,
+  Maximize2
 } from 'lucide-react';
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -26,6 +31,7 @@ const App = () => {
     { name: 'Tentang', href: '#about' },
     { name: 'Keahlian', href: '#skills' },
     { name: 'Portofolio', href: '#portfolio' },
+    { name: 'Sertifikat', href: '#certificates' },
     { name: 'Kontak', href: '#contact' },
   ];
 
@@ -39,55 +45,79 @@ const App = () => {
     { name: "Figma", icon: "https://images.icon-icons.com/2429/PNG/512/figma_logo_icon_147289.png" },
   ];
 
-  const goBack = () => {
-    window.history.back();
-  };
+  const certificates = [
+    { title: "Fundamental SQL Using Select Statement", issuer: "DQLab", image: "/serti-1.jpg", date: "20 Februari 2025" },
+    { title: "Guide To Learn SQL With AI At DQLab", issuer: "DQLab", image: "/serti-2.jpg", date: "18 Februari 2025" },
+    { title: "Logicodix 2024", issuer: "UNESA", image: "/serti-3.png", date: "Mei 2024" },
+    { title: "Pelatihan Cyber Security Awareness", issuer: "SMK TELKOM MALANG", image: "/serti-4.jpg", date: "19 Juni 2024" },
+    { title: "Talkshow AMD CLASSROOM", issuer: "AMD RYZEN", image: "/serti-5.jpg", date: "27 September 2024" }
+  ];
+
+  const goBack = () => window.history.back();
 
   return (
     <div className="min-h-screen w-full bg-[#020617] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/30 via-[#020617] to-[#000000] text-white font-['Inter'] selection:bg-indigo-500/30 overflow-x-hidden flex flex-col items-center">
 
-      {/* NAVBAR */}
+      {/* --- LIGHTBOX MODAL (Fitur Preview Gambar) --- */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-[2000] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10 cursor-zoom-out"
+          >
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
+              className="relative max-w-4xl w-full flex flex-col items-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button 
+                onClick={() => setSelectedImage(null)}
+                className="absolute -top-12 right-0 md:-right-12 p-2 text-white/50 hover:text-white transition-colors"
+              >
+                <X size={32} />
+              </button>
+              <img 
+                src={selectedImage.image} 
+                alt={selectedImage.title} 
+                className="w-full h-auto max-h-[80vh] object-contain rounded-xl shadow-2xl border border-white/10"
+              />
+              <div className="mt-6 text-center">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-1">{selectedImage.title}</h3>
+                <p className="text-indigo-400 font-semibold uppercase tracking-widest text-sm">{selectedImage.issuer}</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* --- NAVBAR --- */}
       <nav className={`fixed w-full z-[1000] transition-all duration-300 px-6 py-4 flex justify-center ${scrolled ? 'bg-[#020617]/90 backdrop-blur-md border-b border-white/5 shadow-xl' : 'bg-transparent'}`}>
         <div className="max-w-7xl w-full flex justify-between items-center relative z-[1001]">
-          <div className="text-[25px] font-bold tracking-tighter text-white">
+          <div className="text-[25px] font-bold tracking-tighter text-white italic">
             Dann Porto<span className="text-indigo-500">.</span>
           </div>
 
-          {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <a key={link.name} href={link.href} className="text-sm font-medium text-gray-400 hover:text-white transition-colors tracking-wide">{link.name}</a>
             ))}
           </div>
 
-          {/* Mobile Toggle - Z-Index ditingkatkan agar selalu di depan */}
-          <button 
-            className="md:hidden relative z-[1002] p-3 rounded-xl border border-white/10 bg-[#0f172a] hover:bg-indigo-600 transition-colors flex items-center justify-center cursor-pointer" 
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? (
-              <X size={24} color="#ffffff" strokeWidth={2.5} />
-            ) : (
-              <Menu size={24} color="#ffffff" strokeWidth={2.5} />
-            )}
+          <button className="md:hidden p-3 rounded-xl border border-white/10 bg-[#0f172a]" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div 
-              initial={{ opacity: 0, y: -20 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              exit={{ opacity: 0, y: -20 }}
-              className="absolute top-0 left-0 w-full bg-[#020617] border-b border-white/10 overflow-hidden md:hidden z-[999] pt-24"
+              initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+              className="absolute top-0 left-0 w-full bg-[#020617] border-b border-white/10 overflow-hidden md:hidden z-[999] pt-24 pb-8"
             >
-              <div className="flex flex-col items-center gap-6 p-8">
+              <div className="flex flex-col items-center gap-6">
                 {navLinks.map((link) => (
-                  <a key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-lg font-semibold text-gray-300 hover:text-indigo-500 transition-colors">
-                    {link.name}
-                  </a>
+                  <a key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-lg font-semibold text-gray-300 hover:text-indigo-500 transition-colors">{link.name}</a>
                 ))}
               </div>
             </motion.div>
@@ -97,7 +127,7 @@ const App = () => {
 
       <main className="w-full max-w-7xl flex flex-col items-center px-6">
         
-        {/* SECTION 1: ABOUT ME */}
+        {/* --- ABOUT ME --- */}
         <section id="about" className="min-h-screen flex flex-col items-center justify-center pt-24 text-center relative w-full">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-indigo-500/20 blur-[120px] rounded-full -z-10" />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="flex flex-col items-center">
@@ -117,30 +147,18 @@ const App = () => {
               <div className="relative w-40 h-40 md:w-44 md:h-44 rounded-full p-1 border-2 border-indigo-500/50 overflow-hidden bg-[#020617] shadow-2xl">
                 <img src="/logoProfil.png" alt="Profile Foto" className="w-full h-full object-cover rounded-full transition-transform duration-500 group-hover:scale-110" />
               </div>
-        
             </div>
-            <h2 className="text-indigo-400 font-semibold tracking-widest text-xs mb-4 uppercase">Junior Fullstack Developer</h2>
+            <h2 className="text-indigo-400 font-semibold tracking-widest text-xs mb-4 uppercase italic">Junior Fullstack Developer</h2>
             <div className="flex gap-8 md:gap-16 mb-12 border-y border-white/5 py-6 w-full max-w-lg justify-center">
-              <div className="flex flex-col text-center">
-                <span className="text-2xl md:text-3xl font-black text-white tracking-tighter">1+</span>
-                <span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">Years Exp.</span>
-              </div>
-              <div className="flex flex-col border-x border-white/10 px-8 md:px-16 text-center">
-                <span className="text-2xl md:text-3xl font-black text-white tracking-tighter">2+</span>
-                <span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">Projects</span>
-              </div>
-              <div className="flex flex-col text-center">
-                <span className="text-2xl md:text-3xl font-black text-white tracking-tighter">5+</span>
-                <span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">Tech Stack</span>
-              </div>
+              <div className="flex flex-col text-center"><span className="text-2xl md:text-3xl font-black text-white">1+</span><span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Years Exp.</span></div>
+              <div className="flex flex-col border-x border-white/10 px-8 md:px-16 text-center"><span className="text-2xl md:text-3xl font-black text-white">2+</span><span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Projects</span></div>
+              <div className="flex flex-col text-center"><span className="text-2xl md:text-3xl font-black text-white">5+</span><span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Tech Stack</span></div>
             </div>
-            <motion.a whileTap={{ scale: 0.95 }} href="#portfolio" className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold text-sm hover:bg-white hover:text-[#020617] transition-all shadow-lg shadow-indigo-600/30 uppercase tracking-[0.2em]">
-              LIHAT PROYEK SAYA
-            </motion.a>
+            <motion.a whileTap={{ scale: 0.95 }} href="#portfolio" className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold text-sm hover:bg-white hover:text-[#020617] transition-all shadow-lg shadow-indigo-600/30 uppercase tracking-[0.2em]">LIHAT PROYEK SAYA</motion.a>
           </motion.div>
         </section>
 
-        {/* SECTION 2: SKILLS */}
+        {/* --- SKILLS --- */}
         <section id="skills" className="py-24 w-full flex flex-col items-center border-t border-white/5">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase text-white italic">Keahlian saya</h2>
@@ -156,86 +174,102 @@ const App = () => {
           </div>
         </section>
 
-        {/* SECTION 3: PORTFOLIO */}
+        {/* --- PORTFOLIO --- */}
         <section id="portfolio" className="py-24 w-full border-t border-white/5 flex flex-col items-center">
-          
-          <div className="w-full max-w-4xl flex flex-col items-center mb-12">
-            {/* Tombol Kembali - Dipindah ke atas agar rapi */}
-            <button 
-              onClick={goBack}
-              className="group flex items-center gap-2 text-gray-400 hover:text-indigo-400 transition-colors text-xs font-bold uppercase tracking-widest mb-8 self-start md:self-center"
-            >
-              <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-              Kembali
-            </button>
-            
-            {/* Judul Project Sekarang Center */}
-            <div className="flex flex-col items-center text-center">
-              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase italic mb-4">Project</h2>
-              <div className="h-1 bg-indigo-600 w-24 rounded-full"></div>
-            </div>
+          <div className="w-full max-w-4xl flex flex-col items-center mb-12 text-center">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase italic mb-4">Project</h2>
+            <div className="h-1 bg-indigo-600 w-24 rounded-full"></div>
           </div>
-          
           <div className="w-full max-w-2xl">
               <div className="bg-white/5 rounded-3xl overflow-hidden border border-white/5 group hover:border-indigo-500/30 transition-all shadow-xl">
                 <div className="aspect-video overflow-hidden">
-                  <img 
-                    src="/image-porto-v1.png" 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                    alt="work" 
-                  />
+                  <img src="/image-porto-v1.png" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="work" />
                 </div>
-                <div className="p-8">
+                <div className="p-8 text-center md:text-left">
                   <h4 className="text-xl font-bold mb-2">My Portfolio V1</h4>
-                  <div className="flex gap-3 text-[10px] font-bold text-indigo-400 uppercase mb-6">
+                  <div className="flex justify-center md:justify-start gap-3 text-[10px] font-bold text-indigo-400 uppercase mb-6">
                     <span className="px-3 py-1 bg-indigo-500/10 rounded-full border border-indigo-500/20">React</span>
                     <span className="px-3 py-1 bg-indigo-500/10 rounded-full border border-indigo-500/20">Tailwind</span>
                   </div>
-                  
-                  <p className="text-gray-400 text-sm mb-8 leading-relaxed">
-                    Website portofolio pribadi yang dibangun dengan teknologi modern untuk menampilkan keahlian dan proyek saya secara interaktif.
-                  </p>
-
-                  <motion.a 
-                    whileTap={{ scale: 0.95 }}
-                    href="https://portofolio-wildanahyan.vercel.app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 bg-indigo-600 hover:bg-white hover:text-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-lg shadow-indigo-600/20 group/btn"
-                  >
-                    Lihat Web 
-                    <ExternalLink size={16} className="transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                  <p className="text-gray-400 text-sm mb-8 leading-relaxed italic">Website portofolio pribadi yang dibangun dengan teknologi modern.</p>
+                  <motion.a whileTap={{ scale: 0.95 }} href="https://portofolio-wildanahyan.vercel.app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-indigo-600 hover:bg-white hover:text-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-lg shadow-indigo-600/20 group/btn">
+                    Lihat Web <ExternalLink size={16} />
                   </motion.a>
                 </div>
               </div>
           </div>
         </section>
 
-        {/* SECTION 4: CONTACT */}
+        {/* --- CERTIFICATES (Click to Preview) --- */}
+        <section id="certificates" className="py-24 w-full border-t border-white/5 flex flex-col items-center">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase text-white italic">Sertifikat</h2>
+            <div className="h-1 bg-indigo-600 w-24 rounded-full mx-auto mb-4"></div>
+            <p className="text-indigo-400 text-sm font-semibold tracking-wider uppercase italic tracking-[0.3em]">Klik untuk memperbesar</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
+            {certificates.map((cert, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                onClick={() => setSelectedImage(cert)}
+                className="group flex flex-col bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/50 transition-all duration-500 cursor-pointer"
+              >
+                <div className="relative aspect-[4/3] overflow-hidden bg-gray-900">
+                  <img 
+                    src={cert.image} 
+                    alt={cert.title} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    onError={(e) => { e.target.src = 'https://via.placeholder.com/400x300?text=Sertifikat+Wildan'; }} 
+                  />
+                  <div className="absolute inset-0 bg-indigo-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                    <div className="flex flex-col items-center gap-2">
+                        <div className="p-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20 scale-50 group-hover:scale-100 transition-transform duration-500">
+                            <Maximize2 className="text-white" size={24} />
+                        </div>
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-white">Preview</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-6">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Award size={16} className="text-indigo-500" />
+                    <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">{cert.issuer}</span>
+                  </div>
+                  <h4 className="font-bold text-base text-white mb-4 group-hover:text-indigo-300 transition-colors line-clamp-2 h-12 italic">{cert.title}</h4>
+                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                    <div className="flex items-center gap-2 text-gray-500 text-[11px] font-bold">
+                      <Calendar size={14} />
+                      {cert.date}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* --- CONTACT --- */}
         <section id="contact" className="py-24 w-full border-t border-white/5 flex flex-col items-center">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase italic">HUBUNGI SAYA</h2>
             <p className="text-gray-400 max-w-md mx-auto italic">Punya pertanyaan atau ingin berkolaborasi? Jangan ragu untuk mengirim pesan.</p>
           </div>
-
           <div className="w-full max-w-2xl px-4 flex justify-center">
             <div className="w-full bg-white/5 border border-white/10 p-8 md:p-12 rounded-3xl relative overflow-hidden group shadow-2xl">
               <div className="absolute top-0 right-0 w-48 h-48 bg-indigo-600/10 blur-[80px] -z-10 transition-all group-hover:bg-indigo-600/20"></div>
-              
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <input type="text" placeholder="Nama Anda" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600 text-white" />
-                  <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600 text-white" />
+                  <input type="text" placeholder="Nama Anda" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 outline-none w-full text-white transition-all" />
+                  <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 outline-none w-full text-white transition-all" />
                 </div>
-                <input type="text" placeholder="Subjek" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600 text-white" />
-                <textarea placeholder="Pesan Anda" rows="5" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full resize-none placeholder:text-gray-600 text-white"></textarea>
-
-                <motion.button whileTap={{ scale: 0.98 }} type="submit" className="group relative w-full bg-indigo-600 text-white font-black py-5 rounded-2xl transition-all duration-500 overflow-hidden shadow-xl shadow-indigo-600/20">
-                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-                  <span className="flex items-center justify-center gap-3 uppercase text-xs md:text-sm tracking-[0.4em] font-extrabold">
-                    Kirim Pesan 
-                    <Send size={18} className="transition-transform duration-500 group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:rotate-12" />
-                  </span>
+                <textarea placeholder="Pesan Anda" rows="5" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 outline-none w-full resize-none text-white transition-all"></textarea>
+                <motion.button whileTap={{ scale: 0.98 }} type="submit" className="group relative w-full bg-indigo-600 text-white font-black py-5 rounded-2xl overflow-hidden shadow-xl shadow-indigo-600/20">
+                  <span className="flex items-center justify-center gap-3 uppercase text-xs md:text-sm tracking-[0.4em] font-extrabold">Kirim Pesan <Send size={18} /></span>
                 </motion.button>
               </form>
             </div>
@@ -243,19 +277,18 @@ const App = () => {
         </section>
       </main>
 
-      {/* FOOTER */}
+      {/* --- FOOTER --- */}
       <footer className="w-full bg-[#000000] border-t border-white/5 pt-20 pb-10 px-6 flex flex-col items-center">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           <div className="flex flex-col gap-6 items-center md:items-start text-center md:text-left">
             <div className="text-2xl font-bold tracking-tighter text-white italic">Dann Porto<span className="text-indigo-500">.</span></div>
             <p className="text-gray-500 text-sm max-w-[250px] leading-relaxed italic">Membangun solusi digital melalui kode dan desain bermakna.</p>
             <div className="flex gap-4">
-              <a href="https://github.com/wildanahyan08-art" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 text-gray-400 hover:text-white"><Github size={18} /></a>
-              <a href="https://www.linkedin.com/in/Wildan-Prasetyo" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 text-gray-400 hover:text-white"><Linkedin size={18} /></a>
-              <a href="https://www.instagram.com/_wildanahyndrp/" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 text-gray-400 hover:text-white"><Instagram size={18} /></a>
+              <a href="https://github.com/wildanahyan08-art" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 text-gray-400 hover:text-white transition-colors"><Github size={18} /></a>
+              <a href="https://www.linkedin.com/in/Wildan-Prasetyo" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 text-gray-400 hover:text-white transition-colors"><Linkedin size={18} /></a>
+              <a href="https://www.instagram.com/_wildanahyndrp/" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 text-gray-400 hover:text-white transition-colors"><Instagram size={18} /></a>
             </div>
           </div>
-
           <div className="flex flex-col items-center gap-6">
             <h4 className="text-xs uppercase font-bold tracking-[0.3em] text-indigo-400 italic">Navigasi</h4>
             <div className="flex flex-col items-center gap-4">
@@ -264,10 +297,9 @@ const App = () => {
               ))}
             </div>
           </div>
-
           <div className="flex flex-col items-center md:items-end gap-6">
             <h4 className="text-xs uppercase font-bold tracking-[0.3em] text-indigo-400 italic">Punya Ide?</h4>
-            <a href="mailto:wildanprasetyo0436@gmail.com" className="group flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10 transition-all">
+            <a href="mailto:wildanprasetyo0436@gmail.com" className="group flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10 transition-all hover:border-indigo-500/50">
               <div className="text-center md:text-right">
                 <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Mari Bicara</p>
                 <p className="text-sm font-bold group-hover:text-indigo-400 transition-colors">Kirim Email Sekarang</p>
@@ -279,13 +311,9 @@ const App = () => {
             </button>
           </div>
         </div>
-
-        <div className="max-w-7xl w-full border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-center">
-          <p className="text-gray-600 text-[10px] font-bold tracking-[0.2em] uppercase italic">© 2025 WILDAN AHYAN. SEMUA HAK DILINDUNGI.</p>
-          <div className="flex gap-8 text-[10px] font-bold tracking-[0.2em] text-gray-600">
-            <span>DESIGNED BY DANN</span>
-            <span>BUILT WITH REACT & TAILWIND</span>
-          </div>
+        <div className="max-w-7xl w-full border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-center text-gray-600 text-[10px] font-bold tracking-[0.2em] uppercase italic">
+          <p>© 2025 WILDAN AHYAN. SEMUA HAK DILINDUNGI.</p>
+          <div className="flex gap-8"><span>DESIGNED BY DANN</span><span>BUILT WITH REACT & TAILWIND</span></div>
         </div>
       </footer>
     </div>
