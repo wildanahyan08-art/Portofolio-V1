@@ -46,64 +46,64 @@ const App = () => {
             ))}
           </div>
 
-          {/* Perbaikan Burger Menu Mobile */}
-          <button 
-            className="md:hidden p-2 bg-slate-800/50 rounded-xl border border-white/10 flex items-center justify-center transition-all active:scale-95" 
+          {/* MOBILE TOGGLE - DENGAN FIX WARNA & ANIMASI TAP */}
+          <motion.button 
+            whileTap={{ scale: 0.9 }} // Animasi saat ditekan di HP
+            className="md:hidden relative p-3 rounded-xl border border-white/10 bg-[#0f172a] flex items-center justify-center overflow-hidden" 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle Menu"
           >
+            {/* Memastikan warna ikon dipaksa putih dengan inline style agar tidak kalah oleh CSS browser */}
             {isMenuOpen ? (
-              <X size={24} className="text-white" strokeWidth={2.5} />
+              <X size={24} style={{ color: '#ffffff' }} strokeWidth={2.5} />
             ) : (
-              <Menu size={24} className="text-white" strokeWidth={2.5} />
+              <Menu size={24} style={{ color: '#ffffff' }} strokeWidth={2.5} />
             )}
-          </button>
+          </motion.button>
         </div>
 
-        {/* Mobile Menu Overlay */}
+        {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div 
-              initial={{ opacity: 0, y: -20 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              exit={{ opacity: 0, y: -20 }}
-              className="absolute top-full left-0 w-full bg-[#020617] border-b border-white/10 p-8 flex flex-col items-center gap-6 md:hidden shadow-2xl"
+              initial={{ opacity: 0, height: 0 }} 
+              animate={{ opacity: 1, height: 'auto' }} 
+              exit={{ opacity: 0, height: 0 }}
+              className="absolute top-full left-0 w-full bg-[#020617] border-b border-white/10 overflow-hidden md:hidden"
             >
-              {navLinks.map((link) => (
-                <a key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-lg font-semibold hover:text-indigo-400 transition-colors">{link.name}</a>
-              ))}
+              <div className="flex flex-col items-center gap-6 p-8">
+                {navLinks.map((link) => (
+                  <a key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className="text-lg font-semibold text-gray-300 active:text-indigo-500 transition-colors">
+                    {link.name}
+                  </a>
+                ))}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </nav>
 
       <main className="w-full max-w-7xl flex flex-col items-center px-6">
-
         {/* SECTION 1: ABOUT ME */}
         <section id="about" className="min-h-screen flex flex-col items-center justify-center pt-24 text-center relative w-full">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-indigo-500/20 blur-[120px] rounded-full -z-10" />
-          
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="flex flex-col items-center">
             <div className="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-4 py-1.5 rounded-full mb-6">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
               </span>
-              <span className="text-[10px] font-bold tracking-[0.2em] text-indigo-300 uppercase">not yet Available for Work</span>
+              <span className="text-[10px] font-bold tracking-[0.2em] text-indigo-300 uppercase italic">not yet Available for Work</span>
             </div>
-
-            <h2 className="text-indigo-400 font-semibold tracking-widest text-xs mb-4 uppercase italic">Junior Fullstack Developer</h2>
+            <h2 className="text-indigo-400 font-semibold tracking-widest text-xs mb-4 uppercase">Junior Fullstack Developer</h2>
             <h1 className="text-4xl md:text-7xl font-extrabold mb-8 leading-tight tracking-tight text-white">
               Halo, Saya <span className="text-indigo-500">Wildan Ahyan Daffa</span>
             </h1>
-
             <div className="relative group mb-10">
               <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
               <div className="relative w-40 h-40 md:w-44 md:h-44 rounded-full p-1 border-2 border-indigo-500/50 overflow-hidden bg-[#020617] shadow-2xl">
                 <img src="/logoProfil.png" alt="Profile Foto" className="w-full h-full object-cover rounded-full transition-transform duration-500 group-hover:scale-110" />
               </div>
             </div>
-
             <div className="flex gap-8 md:gap-16 mb-12 border-y border-white/5 py-6 w-full max-w-lg justify-center">
               <div className="flex flex-col text-center">
                 <span className="text-2xl md:text-3xl font-black text-white tracking-tighter">1+</span>
@@ -118,10 +118,9 @@ const App = () => {
                 <span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">Tech Stack</span>
               </div>
             </div>
-
-            <a href="#portfolio" className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold text-sm hover:bg-white hover:text-[#020617] transition-all shadow-lg shadow-indigo-600/30 uppercase tracking-[0.2em]">
+            <motion.a whileTap={{ scale: 0.95 }} href="#portfolio" className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold text-sm hover:bg-white hover:text-[#020617] transition-all shadow-lg shadow-indigo-600/30 uppercase tracking-[0.2em]">
               LIHAT PROYEK SAYA
-            </a>
+            </motion.a>
           </motion.div>
         </section>
 
@@ -165,11 +164,11 @@ const App = () => {
           </div>
         </section>
 
-        {/* CONTACT SECTION (Centered Fixed) */}
+        {/* CONTACT SECTION */}
         <section id="contact" className="py-24 w-full border-t border-white/5 flex flex-col items-center">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase italic">HUBUNGI SAYA</h2>
-            <p className="text-gray-400 max-w-md mx-auto">Punya pertanyaan atau ingin berkolaborasi? Jangan ragu untuk mengirim pesan.</p>
+            <p className="text-gray-400 max-w-md mx-auto italic">Punya pertanyaan atau ingin berkolaborasi? Jangan ragu untuk mengirim pesan.</p>
           </div>
 
           <div className="w-full max-w-2xl px-4 flex justify-center">
@@ -184,13 +183,13 @@ const App = () => {
                 <input type="text" placeholder="Subjek" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full placeholder:text-gray-600 text-white" />
                 <textarea placeholder="Pesan Anda" rows="5" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all w-full resize-none placeholder:text-gray-600 text-white"></textarea>
 
-                <button type="submit" className="group relative w-full bg-indigo-600 hover:bg-white text-white hover:text-indigo-600 font-black py-5 rounded-2xl transition-all duration-500 overflow-hidden shadow-xl shadow-indigo-600/20">
+                <motion.button whileTap={{ scale: 0.98 }} type="submit" className="group relative w-full bg-indigo-600 text-white font-black py-5 rounded-2xl transition-all duration-500 overflow-hidden shadow-xl shadow-indigo-600/20">
                   <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-indigo-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-                  <span className="flex items-center justify-center gap-3 uppercase text-xs md:text-sm tracking-[0.4em] font-extrabold transition-all duration-300">
+                  <span className="flex items-center justify-center gap-3 uppercase text-xs md:text-sm tracking-[0.4em] font-extrabold">
                     Kirim Pesan 
                     <Send size={18} className="transition-transform duration-500 group-hover:translate-x-2 group-hover:-translate-y-2 group-hover:rotate-12" />
                   </span>
-                </button>
+                </motion.button>
               </form>
             </div>
           </div>
@@ -201,17 +200,17 @@ const App = () => {
       <footer className="w-full bg-[#000000] border-t border-white/5 pt-20 pb-10 px-6 flex flex-col items-center">
         <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
           <div className="flex flex-col gap-6 items-center md:items-start text-center md:text-left">
-            <div className="text-2xl font-bold tracking-tighter text-white">Dann Porto<span className="text-indigo-500">.</span></div>
+            <div className="text-2xl font-bold tracking-tighter text-white italic">Dann Porto<span className="text-indigo-500">.</span></div>
             <p className="text-gray-500 text-sm max-w-[250px] leading-relaxed italic">Membangun solusi digital melalui kode dan desain bermakna.</p>
             <div className="flex gap-4">
-              <a href="https://github.com/wildanahyan08-art" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-white"><Github size={18} /></a>
-              <a href="https://www.linkedin.com/in/Wildan-Prasetyo" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-white"><Linkedin size={18} /></a>
-              <a href="https://www.instagram.com/_wildanahyndrp/" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 hover:border-indigo-500/50 transition-all text-gray-400 hover:text-white"><Instagram size={18} /></a>
+              <a href="https://github.com/wildanahyan08-art" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 text-gray-400 hover:text-white"><Github size={18} /></a>
+              <a href="https://www.linkedin.com/in/Wildan-Prasetyo" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 text-gray-400 hover:text-white"><Linkedin size={18} /></a>
+              <a href="https://www.instagram.com/_wildanahyndrp/" target="_blank" rel="noreferrer" className="p-2.5 bg-white/5 rounded-lg border border-white/5 text-gray-400 hover:text-white"><Instagram size={18} /></a>
             </div>
           </div>
 
           <div className="flex flex-col items-center gap-6">
-            <h4 className="text-xs uppercase font-bold tracking-[0.3em] text-indigo-400">Navigasi</h4>
+            <h4 className="text-xs uppercase font-bold tracking-[0.3em] text-indigo-400 italic">Navigasi</h4>
             <div className="flex flex-col items-center gap-4">
               {navLinks.map((link) => (
                 <a key={link.name} href={link.href} className="text-sm text-gray-400 hover:text-white transition-colors">{link.name}</a>
@@ -220,22 +219,22 @@ const App = () => {
           </div>
 
           <div className="flex flex-col items-center md:items-end gap-6">
-            <h4 className="text-xs uppercase font-bold tracking-[0.3em] text-indigo-400">Punya Ide?</h4>
-            <a href="mailto:wildanprasetyo0436@gmail.com" className="group flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10 hover:border-indigo-500/30 transition-all">
+            <h4 className="text-xs uppercase font-bold tracking-[0.3em] text-indigo-400 italic">Punya Ide?</h4>
+            <a href="mailto:wildanprasetyo0436@gmail.com" className="group flex items-center gap-3 bg-white/5 px-6 py-4 rounded-2xl border border-white/10 transition-all">
               <div className="text-center md:text-right">
                 <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold mb-1">Mari Bicara</p>
                 <p className="text-sm font-bold group-hover:text-indigo-400 transition-colors">Kirim Email Sekarang</p>
               </div>
               <div className="p-2 bg-indigo-600 rounded-lg group-hover:scale-110 transition-transform"><Send size={16} /></div>
             </a>
-            <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="mt-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:text-white transition-colors group">
+            <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="mt-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:text-white transition-colors group italic">
               Back to Top <ArrowUp size={14} className="group-hover:-translate-y-1 transition-transform" />
             </button>
           </div>
         </div>
 
         <div className="max-w-7xl w-full border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-center">
-          <p className="text-gray-600 text-[10px] font-bold tracking-[0.2em] uppercase">© 2025 WILDAN AHYAN. SEMUA HAK DILINDUNGI.</p>
+          <p className="text-gray-600 text-[10px] font-bold tracking-[0.2em] uppercase italic">© 2025 WILDAN AHYAN. SEMUA HAK DILINDUNGI.</p>
           <div className="flex gap-8 text-[10px] font-bold tracking-[0.2em] text-gray-600">
             <span>DESIGNED BY DANN</span>
             <span>BUILT WITH REACT & TAILWIND</span>
