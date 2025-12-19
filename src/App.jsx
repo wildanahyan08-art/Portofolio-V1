@@ -53,8 +53,6 @@ const App = () => {
     { title: "Talkshow AMD CLASSROOM", issuer: "AMD RYZEN", image: "/serti-5.jpg", date: "27 September 2024" }
   ];
 
-  const goBack = () => window.history.back();
-
   return (
     <div className="min-h-screen w-full bg-[#020617] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/30 via-[#020617] to-[#000000] text-white font-['Inter'] selection:bg-indigo-500/30 overflow-x-hidden flex flex-col items-center">
 
@@ -154,7 +152,19 @@ const App = () => {
               <div className="flex flex-col border-x border-white/10 px-8 md:px-16 text-center"><span className="text-2xl md:text-3xl font-black text-white">2+</span><span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Projects</span></div>
               <div className="flex flex-col text-center"><span className="text-2xl md:text-3xl font-black text-white">5+</span><span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Tech Stack</span></div>
             </div>
-            <motion.a whileTap={{ scale: 0.95 }} href="#portfolio" className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold text-sm hover:bg-white hover:text-[#020617] transition-all shadow-lg shadow-indigo-600/30 uppercase tracking-[0.2em]">LIHAT PROYEK SAYA</motion.a>
+            {/* TOMBOL LIHAT PROYEK SAYA - DIUBAH dengan teks tetap putih */}
+            <motion.a 
+              whileTap={{ scale: 0.95 }} 
+              href="#portfolio" 
+              className="relative bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-10 py-4 rounded-xl font-bold text-sm hover:bg-gradient-to-r hover:from-purple hover:shadow-purple/30 transition-all duration-500 shadow-lg shadow-indigo-600/30 uppercase tracking-[0.2em] group overflow-hidden"
+              
+            >
+              <span className="text-white relative z-10 flex items-center justify-center gap-2">
+                LIHAT PROYEK SAYA
+                <ArrowUp size={16} className="group-hover:translate-y-[-2px] transition-transform" />
+              </span>
+              <div className="absolute inset-0 bg-white rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
+            </motion.a>
           </motion.div>
         </section>
 
@@ -192,8 +202,18 @@ const App = () => {
                     <span className="px-3 py-1 bg-indigo-500/10 rounded-full border border-indigo-500/20">Tailwind</span>
                   </div>
                   <p className="text-gray-400 text-sm mb-8 leading-relaxed italic">Website portofolio pribadi yang dibangun dengan teknologi modern.</p>
-                  <motion.a whileTap={{ scale: 0.95 }} href="https://portofolio-wildanahyan.vercel.app" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-indigo-600 hover:bg-white hover:text-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-300 shadow-lg shadow-indigo-600/20 group/btn">
-                    Lihat Web <ExternalLink size={16} />
+                  {/* TOMBOL LIHAT WEB - DIUBAH dengan teks tetap putih */}
+                  <motion.a 
+                    whileTap={{ scale: 0.95 }} 
+                    href="https://portofolio-wildanahyan.vercel.app" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="relative inline-flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-white/30 px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-widest transition-all duration-500 shadow-lg shadow-indigo-600/20 group/btn overflow-hidden"
+                  >
+                    <span className="text-white relative z-10 flex items-center gap-2">
+                      Lihat Web <ExternalLink size={16} />
+                    </span>
+                    <div className="absolute inset-0 bg-white opacity-0 group-hover/btn:opacity-20 transition-opacity duration-500"></div>
                   </motion.a>
                 </div>
               </div>
@@ -268,8 +288,16 @@ const App = () => {
                   <input type="email" placeholder="Email" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 outline-none w-full text-white transition-all" />
                 </div>
                 <textarea placeholder="Pesan Anda" rows="5" className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-sm focus:border-indigo-500 outline-none w-full resize-none text-white transition-all"></textarea>
-                <motion.button whileTap={{ scale: 0.98 }} type="submit" className="group relative w-full bg-indigo-600 text-white font-black py-5 rounded-2xl overflow-hidden shadow-xl shadow-indigo-600/20">
-                  <span className="flex items-center justify-center gap-3 uppercase text-xs md:text-sm tracking-[0.4em] font-extrabold">Kirim Pesan <Send size={18} /></span>
+                {/* TOMBOL KIRIM PESAN - DIUBAH dengan teks tetap putih */}
+                <motion.button 
+                  whileTap={{ scale: 0.98 }} 
+                  type="submit" 
+                  className="relative w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-black py-5 rounded-2xl overflow-hidden shadow-xl shadow-indigo-600/20 group"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-3 uppercase text-xs md:text-sm tracking-[0.4em] font-extrabold">
+                    Kirim Pesan <Send size={18} />
+                  </span>
+                  <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
                 </motion.button>
               </form>
             </div>
@@ -306,7 +334,11 @@ const App = () => {
               </div>
               <div className="p-2 bg-indigo-600 rounded-lg group-hover:scale-110 transition-transform"><Send size={16} /></div>
             </a>
-            <button onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} className="mt-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-gray-600 hover:text-white transition-colors group italic">
+            {/* TOMBOL BACK TO TOP - DIUBAH dengan teks putih */}
+            <button 
+              onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})} 
+              className="mt-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white hover:text-indigo-300 transition-colors group italic bg-indigo-600/30 hover:bg-indigo-600/40 px-4 py-3 rounded-xl border border-indigo-500/30 backdrop-blur-sm"
+            >
               Back to Top <ArrowUp size={14} className="group-hover:-translate-y-1 transition-transform" />
             </button>
           </div>
