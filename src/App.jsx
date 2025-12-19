@@ -170,9 +170,9 @@ const App = () => {
 
         {/* --- SKILLS --- */}
         <section id="skills" className="py-24 w-full flex flex-col items-center border-t border-white/5">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase text-white italic">Keahlian saya</h2>
-            <p className="text-indigo-400 text-sm font-semibold tracking-wider uppercase italic tracking-[0.3em]">My Skills Set</p>
+          <div className="w-full max-w-4xl flex flex-col items-center mb-12 text-center">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase italic mb-4">My skills</h2>
+            <div className="h-1 bg-indigo-600 w-24 rounded-full"></div>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 w-full max-w-6xl">
             {skills.map((skill, i) => (
@@ -222,10 +222,9 @@ const App = () => {
 
         {/* --- CERTIFICATES (Click to Preview) --- */}
         <section id="certificates" className="py-24 w-full border-t border-white/5 flex flex-col items-center">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4 uppercase text-white italic">Sertifikat</h2>
-            <div className="h-1 bg-indigo-600 w-24 rounded-full mx-auto mb-4"></div>
-            <p className="text-indigo-400 text-sm font-semibold tracking-wider uppercase italic tracking-[0.3em]">Klik untuk memperbesar</p>
+          <div className="w-full max-w-4xl flex flex-col items-center mb-12 text-center">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white uppercase italic mb-4">certificates</h2>
+            <div className="h-1 bg-indigo-600 w-24 rounded-full"></div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
